@@ -12,7 +12,7 @@ const mangayomiSources = [{
     "dateFormatLocale": "",
     "isNsfw": true,
     "hasCloudflare": false,
-    "sourceCodeUrl": "https://raw.githubusercontent.com/dito-dev/yomiextensionreal/main/nsfw/pv_player.js",
+    "sourceCodeUrl": "https://raw.githubusercontent.com/dito-dev/yomiextensionreal/main/real/pv_player.js",
     "isFullData": false,
     "appMinVerReq": "0.5.0",
     "additionalParams": "",
@@ -194,5 +194,6 @@ class DefaultExtension extends MProvider {
     getFilterList() { return []; }
     getSourcePreferences() { return []; }
 }
+
 
 
