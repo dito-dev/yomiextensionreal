@@ -12,7 +12,7 @@ const mangayomiSources = [{
     "dateFormatLocale": "",
     "isNsfw": true,
     "hasCloudflare": false,
-    "sourceCodeUrl": "https://raw.githubusercontent.com/RandomUs3rInTh3Int3rn3t/mangayomi-extensionstet/main/javascript/anime/src/en/nsfw/hentaiworld.js",
+    "sourceCodeUrl": "https://raw.githubusercontent.com/dito-dev/yomiextensionreal/main/nsfw/hentaiworld.js",
     "isFullData": false,
     "appMinVerReq": "0.5.0",
     "additionalParams": "",
@@ -389,4 +389,5 @@ class DefaultExtension extends MProvider {
         ];
     }
 }
+
 

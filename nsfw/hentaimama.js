@@ -12,7 +12,7 @@ var mangayomiSources = [{
     "dateFormatLocale": "",
     "isNsfw": true,
     "hasCloudflare": true,
-    "sourceCodeUrl": "https://raw.githubusercontent.com/RandomUs3rInTh3Int3rn3t/mangayomi-extensionstet/main/javascript/anime/src/en/nsfw/hentaimama.js",
+    "sourceCodeUrl": "https://raw.githubusercontent.com/dito-dev/yomiextensionreal/main/nsfw/hentaimama.js",
     "isFullData": false,
     "appMinVerReq": "0.5.0",
     "additionalParams": "",
@@ -276,4 +276,5 @@ class DefaultExtension extends MProvider {
     getFilterList() { return []; }
     getSourcePreferences() { return []; }
 }
+
 
