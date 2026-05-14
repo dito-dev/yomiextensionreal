@@ -7,7 +7,7 @@ const mangayomiSources = [{
     "typeSource": "single",
     "isManga": false,
     "itemType": 1,
-    "version": "0.0.1",
+    "version": "0.0.2",
     "dateFormat": "",
     "dateFormatLocale": "",
     "isNsfw": true,
@@ -69,7 +69,7 @@ class DefaultExtension extends MProvider {
     async getPopular(page) {
         console.log("PinayVids getPopular page=" + page);
         try {
-            var url = this.baseUrl + "/page/" + page + "/";
+            var url = this.baseUrl + "/page/" + page + "/?filter=popular";
             var res = await this.client.get(url, this.getHeaders());
             var list = this.parseShowList(res.body);
             return { list: list, hasNextPage: list.length > 0 };
@@ -80,13 +80,40 @@ class DefaultExtension extends MProvider {
     }
 
     async getLatestUpdates(page) {
-        return await this.getPopular(page);
+        console.log("PinayVids getLatestUpdates page=" + page);
+        try {
+            var url = this.baseUrl + "/page/" + page + "/?filter=latest";
+            var res = await this.client.get(url, this.getHeaders());
+            var list = this.parseShowList(res.body);
+            return { list: list, hasNextPage: list.length > 0 };
+        } catch (e) {
+            console.log("PinayVids getLatestUpdates error: " + e);
+            return { list: [], hasNextPage: false };
+        }
     }
 
     async search(query, page, filters) {
         console.log("PinayVids search: " + query + " page=" + page);
         try {
-            var url = this.baseUrl + "/page/" + page + "/?s=" + encodeURIComponent(query);
+            let url = "";
+            let filter = "latest";
+            let category = "";
+
+            if (filters && filters.length > 0) {
+                for (const f of filters) {
+                    if (f.name === "Sort By") filter = f.values[f.state].value;
+                    if (f.name === "Category") category = f.values[f.state].value;
+                }
+            }
+
+            if (query) {
+                url = `${this.baseUrl}/page/${page}/?s=${encodeURIComponent(query)}&filter=${filter}`;
+            } else if (category) {
+                url = `${this.baseUrl}/category/${category}/page/${page}/?filter=${filter}`;
+            } else {
+                url = `${this.baseUrl}/page/${page}/?filter=${filter}`;
+            }
+
             var res = await this.client.get(url, this.getHeaders());
             var list = this.parseShowList(res.body);
             return { list: list, hasNextPage: list.length > 0 };
@@ -191,7 +218,37 @@ class DefaultExtension extends MProvider {
     }
 
     async getPageList(url) { return []; }
-    getFilterList() { return []; }
+    getFilterList() {
+        return [
+            {
+                type_name: "SelectFilter",
+                name: "Sort By",
+                state: 0,
+                values: [
+                    { type_name: "SelectOption", name: "Newest", value: "latest" },
+                    { type_name: "SelectOption", name: "Popular", value: "popular" },
+                    { type_name: "SelectOption", name: "Longest", value: "longest" },
+                    { type_name: "SelectOption", name: "Random", value: "random" }
+                ]
+            },
+            {
+                type_name: "SelectFilter",
+                name: "Category",
+                state: 0,
+                values: [
+                    { type_name: "SelectOption", name: "All", value: "" },
+                    { type_name: "SelectOption", name: "Celebrity", value: "celebrity" },
+                    { type_name: "SelectOption", name: "Homemade Sex", value: "homemade-sex" },
+                    { type_name: "SelectOption", name: "Pinay", value: "pinay" },
+                    { type_name: "SelectOption", name: "Pinay Porn Videos", value: "pinay-porn-videos" },
+                    { type_name: "SelectOption", name: "Pinay Sex Videos", value: "pinay-sex-videos" },
+                    { type_name: "SelectOption", name: "Pinay Solo Videos", value: "pinay-solo-videos" },
+                    { type_name: "SelectOption", name: "Pinay Viral Videos", value: "pinay-viral-videos" },
+                    { type_name: "SelectOption", name: "Teen (18+)", value: "teen-18" }
+                ]
+            }
+        ];
+    }
     getSourcePreferences() { return []; }
 }
 
